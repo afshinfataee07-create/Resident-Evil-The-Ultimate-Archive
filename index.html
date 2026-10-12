@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resident Evil: The Ultimate Archive</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090a0d;color:#eee;font-family:Arial,sans-serif}
+header{text-align:center;padding:45px 16px;background:linear-gradient(135deg,#430b12,#101116);border-bottom:2px solid #c51e2b}
+h1{letter-spacing:2px}
+h1 span{color:#ed303d}
+header p{color:#ccc;line-height:1.7}
+main{max-width:1000px;margin:auto;padding:20px}
+input,select{width:100%;padding:14px;margin:8px 0;background:#191b21;color:white;border:1px solid #444;border-radius:8px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+.card{background:#17191f;border:1px solid #353740;border-radius:10px;padding:18px}
+.card h2{color:#f0525d;font-size:20px}
+.card p{color:#ccc;line-height:1.6}
+.tag{font-size:13px;color:#dca4a8}
+footer{text-align:center;padding:25px;color:#999}
+</style>
+</head>
+<body>
+<header>
+<h1><span>RESIDENT EVIL</span></h1>
+<p>THE ULTIMATE ARCHIVE<br>
+Games • Characters • Story Timeline</p>
+</header>
+<main>
+<h2>Game Archive</h2>
+<input id="search" placeholder="Search games..." aria-label="Search games">
+<select id="sort" aria-label="Sort games">
+<option value="release">Release order</option>
+<option value="story">Story chronology</option>
+</select>
+<section class="grid" id="games"></section>
+</main>
+<footer>Unofficial fan archive · Not affiliated with Capcom</footer>
+<script>
+const games=[
+{title:"Resident Evil 0",year:1998,release:2002,desc:"Rebecca Chambers and Billy Coen uncover a dark mystery."},
+{title:"Resident Evil",year:1998,release:1996,desc:"The original mansion incident and the S.T.A.R.S. team."},
+{title:"Resident Evil 2",year:1998,release:1998,desc:"Leon Kennedy and Claire Redfield in Raccoon City."},
+{title:"Resident Evil 3",year:1998,release:1999,desc:"Jill Valentine attempts to escape Raccoon City."},
+{title:"Resident Evil Code: Veronica",year:1998,release:2000,desc:"Claire and Chris Redfield face a new nightmare."},
+{title:"Resident Evil 4",year:2004,release:2005,desc:"Leon searches for the President's missing daughter."},
+{title:"Resident Evil 5",year:2009,release:2009,desc:"Chris Redfield and Sheva Alomar investigate Africa."},
+{title:"Resident Evil 6",year:2012,release:2012,desc:"Multiple campaigns reveal a global bioterror threat."},
+{title:"Resident Evil 7: Biohazard",year:2017,release:2017,desc:"Ethan Winters searches for Mia in Louisiana."},
+{title:"Resident Evil Village",year:2021,release:2021,desc:"Ethan's story continues in a mysterious village."}
+];
+const search=document.getElementById("search");
+const sort=document.getElementById("sort");
+const grid=document.getElementById("games");
+function render(){
+let list=games.filter(g=>(g.title+" "+g.desc).toLowerCase().includes(search.value.toLowerCase()));
+list.sort((a,b)=>sort.value==="story"?a.year-b.year:a.release-b.release);
+grid.replaceChildren();
+list.forEach(g=>{
+const card=document.createElement("article");
+card.className="card";
+const h=document.createElement("h2");
+h.textContent=g.title;
+const tag=document.createElement("div");
+tag.className="tag";
+tag.textContent="Story year: "+g.year;
+const p=document.createElement("p");
+p.textContent=g.desc;
+card.append(h,tag,p);
+grid.append(card);
+});
+}
+search.addEventListener("input",render);
+sort.addEventListener("change",render);
+render();
+</script>
+</body>
+</html>
